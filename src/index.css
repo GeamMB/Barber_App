@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 @font-face {
     font-family: "YoungHeart";
     src: url("./Fonts/YoungHeart/YoungHeart.ttf") format("truetype");
     font-style: normal;
     font-display: swap;
+}
+
+.font-bebas {
+    font-family: "Bebas Neue", sans-serif;
 }

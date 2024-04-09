@@ -1,16 +1,18 @@
 import Logo from "../img/Logo.png";
 import TitleApp from "../img/TitleApp.png";
 import IconArrow from "../icons/CircleIcon.svg";
-import IconVer from "../icons/Ver.png"
+import IconVer from "../icons/Ver.png";
 
 import { useState, useEffect } from "react";
+
 import Loader from "../Loader";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1000);
+    const timer = setTimeout(() => setLoading(false), 500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -19,24 +21,26 @@ function Login() {
       {loading ? (
         <Loader />
       ) : (
-        <section className="min-h-screen bg-[#212121]">
-          <div className="max-w-3xl mx-auto">
+        <section className="min-h-screen bg-[#16232E]">
+          <div className="max-lg:hidden h-screen flex justify-center items-center">
+            <h1 className="text-white text-center font-bebas tracking-wider text-3xl">
+              A <span className="text-[#E3C75F]">resolução</span> da tela atual <span className="text-red-500">não é suportada</span> por este aplicativo.
+            </h1>
+          </div>
+          <div className="max-w-3xl mx-auto lg:hidden">
             <div className="bg-gradient-to-b from-[#1F303F] to-[#477194] h-screen w-full  pt-4">
               <div className="flex h-72 flex-col">
                 <div className="flex items-center justify-center h-36">
-                  <img src={Logo} alt="Logo - BARBER SCHEDULE" loading="lazy" class="h-full" />
+                  <img src={Logo} alt="Logo - BARBER SCHEDULE" className="h-full" />
                 </div>
 
                 <div className="flex flex-col items-center justify-center text-white text-center mt-8 h-24">
-                  {/* <img src={TitleApp} alt="Paragraph - BARBER SCHEDULE" loading="lazy" class="h-full" /> */}
                   <h2 translate="no" className=" font-youngheart text-5xl text-white  ">
                     BARBER SCHEDULE
                   </h2>
-                  <p className="w-60 font-bebas text-xs text-center uppercase">A melhor aplicacação para gestão de negócios barbershop e clientes</p>
+                  <p className="w-60 font-bebas text-xs text-center uppercase tracking-widest">A melhor aplicacação para gestão de negócios barbershop e clientes</p>
                 </div>
               </div>
-
-              {/*  */}
 
               <div className="flex items-center h-72 flex-col mt-4">
                 <div className="py-2 flex justify-center items-center">
@@ -46,7 +50,7 @@ function Login() {
                 </div>
 
                 <div className="pt-2">
-                  <form method="post" action="#" className="flex justify-center items-center flex-col space-y-4">
+                  <form method="post" className="flex justify-center items-center flex-col space-y-4">
                     <div>
                       <label>
                         <input className="w-64 h-9 rounded pl-2 font-bebas text-start flex" type="text" placeholder="Usuário..." id="User"></input>
@@ -56,10 +60,9 @@ function Login() {
                       <label>
                         <input className="w-64 h-9 rounded pl-2 font-bebas text-start font-" type="password" placeholder="Senha..." minLength={6} id="PassWord"></input>
                       </label>
-                       
                     </div>
 
-                    <a className="mt-2 text-[#E3C75F] bebas-font tracking-wider cursor-pointer" href="javascript:void(0)">
+                    <a className="mt-2 text-[#E3C75F] font-bebas tracking-wider cursor-pointer" href="">
                       Esqueceu sua senha?
                     </a>
 
@@ -71,11 +74,11 @@ function Login() {
               </div>
 
               <div className="flex justify-center items-center h-[56.6px]">
-                <p className="uppercase text-white text-sm bebas-font tracking-widest">
+                <p className="uppercase text-white text-sm font-bebas tracking-widest">
                   NOVO USUÁRIO?{" "}
-                  <a href="javascript:void(0)">
-                    <span className="text-[#E3C75F] cursor-pointer">CLIQUE AQUI</span>
-                  </a>
+                <Link to="/registrar">
+                   <span className="text-[#E3C75F] cursor-pointer">CLIQUE AQUI</span>
+                </Link>
                 </p>
               </div>
             </div>

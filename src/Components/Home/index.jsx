@@ -1,14 +1,25 @@
-import { Link } from "react-router-dom";
+import React from "react";
 import { useState, useEffect } from "react";
-import Loader from "../Loader";
 
-export default function NotFound() {
+import Loader from "../Loader";
+import { useNavigate } from "react-router-dom/dist";
+
+export default function Home() {
 	const [loading, setLoading] = useState(true);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const timer = setTimeout(() => setLoading(false), 500);
 		return () => clearTimeout(timer);
 	}, []);
+
+	function disconnectUser() {
+		const authData = localStorage.getItem("BS_Auth");
+		if (authData === "true") {
+			localStorage.setItem("BS_Auth", "false");
+			navigate("/");
+		}
+	}
 
 	return (
 		<>
@@ -21,18 +32,13 @@ export default function NotFound() {
 							A <span className="text-[#E3C75F]">resolução</span> da tela atual <span className="text-red-500">não é suportada</span> por este aplicativo.
 						</h1>
 					</div>
+
 					<div className="max-w-3xl mx-auto lg:hidden">
 						<main className="grid h-screen place-items-center bg-gradient-to-b from-[#1F303F] to-[#477194] px-6 py-24 sm:py-32">
-							<div className="text-center">
-								<p className="text-base font-semibold text-[#E3C75F]">404</p>
-								<h1 className="mt-4 text-3xl font-bold tracking-tight text-white">Página não encontrada</h1>
-
-								<div className="flex items-center justify-center mt-10 gap-x-6">
-									<Link to="/home" className="rounded-md bg-[#CC8D1A] px-8 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-white hover:text-[#CC8D1A]">
-										Voltar
-									</Link>
-								</div>
-							</div>
+							<h1 className="text-3xl text-white uppercase">página home</h1>
+							<button onClick={disconnectUser} className="text-3xl text-white uppercase">
+								DESCONECTAR
+							</button>
 						</main>
 					</div>
 				</section>

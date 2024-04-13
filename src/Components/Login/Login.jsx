@@ -7,86 +7,110 @@ import { useState, useEffect } from "react";
 
 import Loader from "../Loader";
 import { Link } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom/dist";
 
 function Login() {
-  const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(true);
+	const [userName, setUserName] = useState("");
+	const [userPassword, setUserPassword] = useState("");
+	const navigate = useNavigate();
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 500);
-    return () => clearTimeout(timer);
-  }, []);
+	useEffect(() => {
+		const timer = setTimeout(() => setLoading(false), 500);
+		return () => clearTimeout(timer);
+	}, []);
 
-  return (
-    <>
-      {loading ? (
-        <Loader />
-      ) : (
-        <section className="min-h-screen bg-[#16232E]">
-          <div className="max-lg:hidden h-screen flex justify-center items-center">
-            <h1 className="text-white text-center font-bebas tracking-wider text-3xl">
-              A <span className="text-[#E3C75F]">resolução</span> da tela atual <span className="text-red-500">não é suportada</span> por este aplicativo.
-            </h1>
-          </div>
-          <div className="max-w-3xl mx-auto lg:hidden">
-            <div className="bg-gradient-to-b from-[#1F303F] to-[#477194] h-screen w-full  pt-4">
-              <div className="flex h-72 flex-col">
-                <div className="flex items-center justify-center h-36">
-                  <img src={Logo} alt="Logo - BARBER SCHEDULE" className="h-full" />
-                </div>
+	if (!localStorage.getItem("BS_Auth")) {
+		localStorage.setItem("BS_Auth", "false");
+	}
 
-                <div className="flex flex-col items-center justify-center text-white text-center mt-8 h-24">
-                  <h2 translate="no" className=" font-youngheart text-5xl text-white  ">
-                    BARBER SCHEDULE
-                  </h2>
-                  <p className="w-60 font-bebas text-xs text-center uppercase tracking-widest">A melhor aplicacação para gestão de negócios barbershop e clientes</p>
-                </div>
-              </div>
+	const authData = localStorage.getItem("BS_Auth");
+	if (authData === "true") {
+		navigate("/home");
+	}
 
-              <div className="flex items-center h-72 flex-col mt-4">
-                <div className="py-2 flex justify-center items-center">
-                  <h1 translate="no" className="text-[#E3C75F] font-bold uppercase text-3xl transform scale-y-150 font-bebas tracking-widest">
-                    LOGIN
-                  </h1>
-                </div>
+	function checkAuth(event) {
+		event.preventDefault();
 
-                <div className="pt-2">
-                  <form method="post" className="flex justify-center items-center flex-col space-y-4">
-                    <div>
-                      <label>
-                        <input className="w-64 h-9 rounded pl-2 font-bebas text-start flex" type="text" placeholder="Usuário..." id="User"></input>
-                      </label>
-                    </div>
-                    <div>
-                      <label>
-                        <input className="w-64 h-9 rounded pl-2 font-bebas text-start font-" type="password" placeholder="Senha..." minLength={6} id="PassWord"></input>
-                      </label>
-                    </div>
+		if (userName === "geam" && userPassword === "123456") {
+			localStorage.setItem("BS_Auth", "true");
+			navigate("/home");
+		} else {
+			navigate("/");
+		}
+	}
 
-                    <a className="mt-2 text-[#E3C75F] font-bebas tracking-wider cursor-pointer" href="">
-                      Esqueceu sua senha?
-                    </a>
+	return (
+		<>
+			{loading ? (
+				<Loader />
+			) : (
+				<section className="min-h-screen bg-[#16232E]">
+					<div className="flex items-center justify-center h-screen max-lg:hidden">
+						<h1 className="text-3xl tracking-wider text-center text-white font-bebas">
+							A <span className="text-[#E3C75F]">resolução</span> da tela atual <span className="text-red-500">não é suportada</span> por este aplicativo.
+						</h1>
+					</div>
+					<div className="max-w-3xl mx-auto lg:hidden">
+						<div className="bg-gradient-to-b from-[#1F303F] to-[#477194] h-screen w-full  pt-4">
+							<div className="flex flex-col h-72">
+								<div className="flex items-center justify-center h-36">
+									<img src={Logo} alt="Logo - BARBER SCHEDULE" className="h-full" />
+								</div>
 
-                    <button type="submit" className="pt-4">
-                      <img src={IconArrow} alt="Botão de login" className="h-14" />
-                    </button>
-                  </form>
-                </div>
-              </div>
+								<div className="flex flex-col items-center justify-center h-24 mt-8 text-center text-white">
+									<h2 translate="no" className="text-5xl text-white font-youngheart">
+										BARBER SCHEDULE
+									</h2>
+									<p className="text-xs tracking-widest text-center uppercase w-60 font-bebas">A melhor aplicacação para gestão de negócios barbershop e clientes</p>
+								</div>
+							</div>
 
-              <div className="flex justify-center items-center h-[56.6px]">
-                <p className="uppercase text-white text-sm font-bebas tracking-widest">
-                  NOVO USUÁRIO?{" "}
-                <Link to="/registrar">
-                   <span className="text-[#E3C75F] cursor-pointer">CLIQUE AQUI</span>
-                </Link>
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-    </>
-  );
+							<div className="flex flex-col items-center mt-4 h-72">
+								<div className="flex items-center justify-center py-2">
+									<h1 translate="no" className="text-[#E3C75F] font-bold uppercase text-3xl transform scale-y-150 font-bebas tracking-widest">
+										LOGIN
+									</h1>
+								</div>
+
+								<div className="pt-2">
+									<form onSubmit={checkAuth} className="flex flex-col items-center justify-center space-y-4">
+										<div>
+											<label>
+												<input className="flex w-64 pl-2 rounded h-9 font-bebas text-start" type="text" placeholder="Usuário..." value={userName} onChange={(e) => setUserName(e.target.value)}></input>
+											</label>
+										</div>
+										<div>
+											<label>
+												<input className="w-64 pl-2 rounded h-9 font-bebas text-start font-" type="password" placeholder="Senha..." minLength={6} value={userPassword} onChange={(e) => setUserPassword(e.target.value)}></input>
+											</label>
+										</div>
+
+										<a className="mt-2 text-[#E3C75F] font-bebas tracking-wider cursor-pointer" href="">
+											Esqueceu sua senha?
+										</a>
+
+										<button type="submit" className="pt-4">
+											<img src={IconArrow} alt="Botão de login" className="h-14" />
+										</button>
+									</form>
+								</div>
+							</div>
+
+							<div className="flex justify-center items-center h-[56.6px]">
+								<p className="text-sm tracking-widest text-white uppercase font-bebas">
+									NOVO USUÁRIO?{" "}
+									<Link to="/registrar">
+										<span className="text-[#E3C75F] cursor-pointer">CLIQUE AQUI</span>
+									</Link>
+								</p>
+							</div>
+						</div>
+					</div>
+				</section>
+			)}
+		</>
+	);
 }
 
 export default Login;
